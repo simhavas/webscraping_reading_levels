@@ -8,7 +8,7 @@ Created on Fri Jan 26 12:10:00 2018
 
 import re, requests, math
 from flask import Flask, request, jsonify
-from collections import Counter
+#from collections import Counter
 from bs4 import BeautifulSoup
 from nltk.tokenize import word_tokenize, sent_tokenize
 #import MySQLdb
