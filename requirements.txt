@@ -1,0 +1,9 @@
+Flask
+nltk
+bs4
+collections
+uwsgi
+psycopg2
+re
+requests
+math
