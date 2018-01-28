@@ -15,6 +15,8 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 
 app = Flask(__name__)
 
+#app.config['SERVER_NAME'] = 'localhost:5000'
+
 specialSyllables_en = """tottered 2
 chummed 1
 peeped 1
@@ -297,10 +299,10 @@ def RIX(analyzedVars):
         score = longwords / analyzedVars['sentence_cnt']
     return score
 
-@app.route('/link/<path:url>',methods = ['GET'])
+@app.route('/<path:url>',methods = ['GET'])
 def analyze(url):
 #    errors = []
-    results = []
+#    results = []
     
     #url = request.form['url']
     #urllink = urllib.request.Request('http://www.python.org/fish.html')
@@ -340,11 +342,12 @@ def analyze(url):
 #            values = [ARI_score,FRE_score,FKG_score,GFI_score,SMIdx,CLIdx,LIX_score,RIX_score]
             
 #            
-            results.append({"ARI_Score": ARI_score,"FRE_Score": FRE_score,"FKG_Score": FKG_score,"GFI_Score":GFI_score,"SmogIdx": SMIdx,"ColemanIdx":CLIdx,"LIX":LIX_score,"RIX": RIX_score })
-            return jsonify(results)
-            
+            #results.append({"ARI_Score": ARI_score,"FRE_Score": FRE_score,"FKG_Score": FKG_score,"GFI_Score":GFI_score,"SmogIdx": SMIdx,"ColemanIdx":CLIdx,"LIX":LIX_score,"RIX": RIX_score })
+            return jsonify({'ARI_Score': ARI_score,'FRE_Score': FRE_score,'FKG_Score': FKG_score,'GFI_Score':GFI_score,'SmogIdx': SMIdx,'ColemanIdx':CLIdx,'LIX':LIX_score,'RIX': RIX_score})
+            #return jsonify(results)
+            #return '<h1>Deployed!</h1>'
         except:
-            return jsonify({'message': "Unable to get URL. Please make sure it's valid and try again."})
+            return jsonify({'message': "Unable process the text. Check the website has paragraphs."})
         
     else:
         return jsonify({'message': "Unable to get URL. Please make sure it's valid and try again."})
