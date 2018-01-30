@@ -320,14 +320,108 @@ def analyze(url):
     
     #url = request.form['url']
     #urllink = urllib.request.Request('http://www.python.org/fish.html')
-    r = requests.get(url)
-    if r:
+    r = requests.get(url).content
+#    if r:
+#        try:
+##            labels = []
+##            values = []
+#            proc_text = []
+#            #news_open = urllib.urlopen(r).read()
+#            news_soup = BeautifulSoup(r.text, "html.parser")
+#            #news_soup = unicodeddata.normalize("NKFD",news_soup)
+#            news_para = news_soup.find_all("p", text = True)
+#            for item in news_para:
+#                # SPLIT WORDS, JOIN WORDS TO REMOVE EXTRA SPACES
+#                para_text = (' ').join((item.find_all(text=True)))
+#                para_text = (' ').join((item.text).split())
+#        
+#                # COMBINE LINES/PARAGRAPHS INTO A LIST
+#                #proc_text.append(para_text.encode('utf-8'))
+#                proc_text.append(para_text)
+#                
+#            #proc_text.remove('')
+#            proc_text = " ".join(proc_text)
+#            
+#            x = analyze_text(proc_text)
+#            ARI_score_temp = ARI(x)
+#            
+#            if ARI_score_temp < 1.0:
+#                ARI_score_temp = 1.0
+#            
+#            if ARI_score_temp <= 15.0:
+#                ARI_score = reMapValues(1.0,15.0,10.0,70.0,ARI_score_temp)
+#            else:
+#                ARI_score = 80.0
+#                
+#                
+#            FRE_score_temp = FleschReadingEase(x)
+#            FRE_score = abs(reMapValues(100.0,0.0,0.0,100.0,FRE_score_temp))
+#            
+#            
+#            FKG_score_temp = FleschKincaidGradeLevel(x)
+#            
+#            if FKG_score_temp < -3.4:
+#                FKG_score_temp = -3.4
+#            
+#            FKG_score = abs(reMapValues(-3.4,12.0,10.0,100.0,FKG_score_temp))
+#            
+#            
+#            GFI_score_temp = GunningFogIndex(x)
+#            
+#            if GFI_score_temp < 6.0:
+#                GFI_score_temp = 6.0
+#            
+#            if GFI_score_temp > 17.0:
+#                GFI_score_temp = 17.0
+#            
+#            GFI_score = abs(reMapValues(6.0,17.0,10.0,80.0,GFI_score_temp))
+#                
+#            
+#            
+#            SMIdx_temp = SMOGIndex(x)
+#            if SMIdx_temp > 240.0:
+#                SMIdx_temp = 240.0
+#            
+#            SMIdx = abs(reMapValues(0.0,240.0,0.0,100.0,SMIdx_temp))
+#                
+#                
+#            CLIdx_temp = ColemanLiauIndex(x)
+#            if CLIdx_temp > 12.0:
+#                CLIdx_temp = 12.0
+#            CLIdx = abs(reMapValues(1.0,12.0,10.0,100.0,CLIdx_temp))
+#            
+#            
+#            LIX_score_temp = LIX(x)
+#            if LIX_score_temp < 20.0:
+#                LIX_score_temp = 20.0
+#            if LIX_score_temp > 60.0:
+#                LIX_score_temp = 60.0
+#            LIX_score = abs(reMapValues(20.0,60.0,10.0,100.0,LIX_score_temp))
+#            
+#            RIX_score = RIX(x)
+##            results = ARI_score
+##            labels = ["ARI_Score","FRE_Score","FKG_Score","GFI_Score","SmogIdx","ColemanIdx","LIX","RIX"]
+##            values = [ARI_score,FRE_score,FKG_score,GFI_score,SMIdx,CLIdx,LIX_score,RIX_score]
+#            
+##            
+#            #results.append({"ARI_Score": ARI_score,"FRE_Score": FRE_score,"FKG_Score": FKG_score,"GFI_Score":GFI_score,"SmogIdx": SMIdx,"ColemanIdx":CLIdx,"LIX":LIX_score,"RIX": RIX_score })
+#            return jsonify({'ARI_Score': ARI_score,'FRE_Score': FRE_score,'FKG_Score': FKG_score,'GFI_Score':GFI_score,'SmogIdx': SMIdx,'ColemanIdx':CLIdx,'LIX':LIX_score,'RIX': RIX_score})
+#            #return jsonify(results)
+#            #return '<h1>Deployed!</h1>'
+#        except:
+#            return jsonify({'message': "Unable process the text. Check the website has paragraphs."})
+#        
+#    else:
+#        return jsonify({'message': "Unable to get URL. Please make sure it's valid and try again."})
+#            
+
+    if r!=0:
         try:
-#            labels = []
-#            values = []
+            #labels = []
+    #       values = []
             proc_text = []
             #news_open = urllib.urlopen(r).read()
-            news_soup = BeautifulSoup(r.text, "html.parser")
+            news_soup = BeautifulSoup(r, "html.parser")
             #news_soup = unicodeddata.normalize("NKFD",news_soup)
             news_para = news_soup.find_all("p", text = True)
             for item in news_para:
@@ -399,11 +493,11 @@ def analyze(url):
             LIX_score = abs(reMapValues(20.0,60.0,10.0,100.0,LIX_score_temp))
             
             RIX_score = RIX(x)
-#            results = ARI_score
-#            labels = ["ARI_Score","FRE_Score","FKG_Score","GFI_Score","SmogIdx","ColemanIdx","LIX","RIX"]
-#            values = [ARI_score,FRE_score,FKG_score,GFI_score,SMIdx,CLIdx,LIX_score,RIX_score]
+    #            results = ARI_score
+    #            labels = ["ARI_Score","FRE_Score","FKG_Score","GFI_Score","SmogIdx","ColemanIdx","LIX","RIX"]
+    #            values = [ARI_score,FRE_score,FKG_score,GFI_score,SMIdx,CLIdx,LIX_score,RIX_score]
             
-#            
+    #            
             #results.append({"ARI_Score": ARI_score,"FRE_Score": FRE_score,"FKG_Score": FKG_score,"GFI_Score":GFI_score,"SmogIdx": SMIdx,"ColemanIdx":CLIdx,"LIX":LIX_score,"RIX": RIX_score })
             return jsonify({'ARI_Score': ARI_score,'FRE_Score': FRE_score,'FKG_Score': FKG_score,'GFI_Score':GFI_score,'SmogIdx': SMIdx,'ColemanIdx':CLIdx,'LIX':LIX_score,'RIX': RIX_score})
             #return jsonify(results)
@@ -413,15 +507,13 @@ def analyze(url):
         
     else:
         return jsonify({'message': "Unable to get URL. Please make sure it's valid and try again."})
-            
+        
 
 
-
-
-
-
+    
 #if __name__ == '__main__':
-#app.run(host='0.0.0.0')
+#    app.run(host='0.0.0.0')
+    #app.run(debug=True)
 #app.run(debug=True)
 
     
