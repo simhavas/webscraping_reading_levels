@@ -299,6 +299,20 @@ def RIX(analyzedVars):
         score = longwords / analyzedVars['sentence_cnt']
     return score
 
+
+def reMapValues(oldMin,oldMax,newMin,newMax,oldValue):
+    
+    oldRange = oldMax - oldMin
+    newRange = newMax - newMin
+    
+    if (oldMin != oldMax and newMin != newMax):
+        return (((oldValue - oldMin)*newRange)/oldRange) + newMin
+    else:
+        return (newMin + newMax)/2.0
+    
+    
+
+
 @app.route('/<path:url>',methods = ['GET'])
 def analyze(url):
 #    errors = []
@@ -329,13 +343,61 @@ def analyze(url):
             proc_text = " ".join(proc_text)
             
             x = analyze_text(proc_text)
-            ARI_score = ARI(x)
-            FRE_score = FleschReadingEase(x)
-            FKG_score = FleschKincaidGradeLevel(x)
-            GFI_score = GunningFogIndex(x)
-            SMIdx = SMOGIndex(x)
-            CLIdx = ColemanLiauIndex(x)
-            LIX_score = LIX(x)
+            ARI_score_temp = ARI(x)
+            
+            if ARI_score_temp < 1.0:
+                ARI_score_temp = 1.0
+            
+            if ARI_score_temp <= 15.0:
+                ARI_score = reMapValues(1.0,15.0,10.0,70.0,ARI_score_temp)
+            else:
+                ARI_score = 80.0
+                
+                
+            FRE_score_temp = FleschReadingEase(x)
+            FRE_score = abs(reMapValues(100.0,0.0,0.0,100.0,FRE_score_temp))
+            
+            
+            FKG_score_temp = FleschKincaidGradeLevel(x)
+            
+            if FKG_score_temp < -3.4:
+                FKG_score_temp = -3.4
+            
+            FKG_score = abs(reMapValues(-3.4,12.0,10.0,100.0,FKG_score_temp))
+            
+            
+            GFI_score_temp = GunningFogIndex(x)
+            
+            if GFI_score_temp < 6.0:
+                GFI_score_temp = 6.0
+            
+            if GFI_score_temp > 17.0:
+                GFI_score_temp = 17.0
+            
+            GFI_score = abs(reMapValues(6.0,17.0,10.0,80.0,GFI_score_temp))
+                
+            
+            
+            SMIdx_temp = SMOGIndex(x)
+            if SMIdx_temp > 240.0:
+                SMIdx_temp = 240.0
+            
+            SMIdx = abs(reMapValues(0.0,240.0,0.0,100.0,SMIdx_temp))
+                
+                
+            CLIdx_temp = ColemanLiauIndex(x)
+            if CLIdx_temp > 12.0:
+                CLIdx_temp = 12.0
+            CLIdx = abs(reMapValues(1.0,12.0,10.0,100.0,CLIdx_temp))
+            
+            
+            LIX_score_temp = LIX(x)
+            if LIX_score_temp < 20.0:
+                LIX_score_temp = 20.0
+            if LIX_score_temp > 60.0:
+                LIX_score_temp = 60.0
+            LIX_score = abs(reMapValues(20.0,60.0,10.0,100.0,LIX_score_temp))
+            
             RIX_score = RIX(x)
 #            results = ARI_score
 #            labels = ["ARI_Score","FRE_Score","FKG_Score","GFI_Score","SmogIdx","ColemanIdx","LIX","RIX"]
@@ -358,7 +420,7 @@ def analyze(url):
 
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+#if __name__ == '__main__':
+app.run(host='0.0.0.0')
     
     
